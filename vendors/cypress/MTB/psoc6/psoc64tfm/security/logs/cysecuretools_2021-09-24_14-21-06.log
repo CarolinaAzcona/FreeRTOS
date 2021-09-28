@@ -1,0 +1,19 @@
+2021-09-24 14:21:06,461 : C : ERROR : Unknown target "cy8ckit064s0s2-4343w". Check the log for details
+2021-09-24 14:21:06,461 : C : DEBUG : cysecuretools.cli, line 97: Unknown target "cy8ckit064s0s2-4343w"
+Traceback (most recent call last):
+  File "C:\Users\AzconaGarcia\python\lib\site-packages\cysecuretools\targets\__init__.py", line 102, in get_target_builder
+    director.builder = target_map[target_name]['class']()
+KeyError: 'cy8ckit\x02064s0s2-4343w'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\AzconaGarcia\python\lib\site-packages\cysecuretools\cli.py", line 90, in main
+    ctx.obj['TOOL'] = CySecureTools(target, policy_path, log_file,
+  File "C:\Users\AzconaGarcia\python\lib\site-packages\cysecuretools\main.py", line 109, in __init__
+    self.target = self._get_target(self.target_name, self.policy, cwd)
+  File "C:\Users\AzconaGarcia\python\lib\site-packages\cysecuretools\main.py", line 693, in _get_target
+    self.target_builder = get_target_builder(director, target_name)
+  File "C:\Users\AzconaGarcia\python\lib\site-packages\cysecuretools\targets\__init__.py", line 105, in get_target_builder
+    raise ValueError(f'Unknown target "{target_name}"')
+ValueError: Unknown target "cy8ckit064s0s2-4343w"
