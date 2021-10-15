@@ -1,0 +1,2 @@
+../../../../../vendors/cypress/MTB/libraries/bluetooth/stack/COMPONENT_WICED_BLE/COMPONENT_CM4/COMPONENT_SOFTFP/TOOLCHAIN_GCC_ARM/libbtstack.a
+../../../../../vendors/cypress/MTB/libraries/capsense/COMPONENT_SOFTFP/TOOLCHAIN_GCC_ARM/libcy_capsense.a

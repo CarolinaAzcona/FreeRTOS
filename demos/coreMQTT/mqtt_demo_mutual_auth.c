@@ -46,9 +46,17 @@
  */
 
 /* Standard includes. */
+#include "last_sensore.h"
 #include <string.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include "receiver_task.h"
+#include "sender_task.h"
+#include "cybsp.h"
+#include "FreeRTOS.h"
+#include "task.h"
+#include "queue.h"
+#include "cy_retarget_io.h"
 
 /* Demo Specific configs. */
 #include "mqtt_demo_mutual_auth_config.h"
@@ -975,6 +983,26 @@ static BaseType_t prvMQTTPublishToTopic( MQTTContext_t * pxMQTTContext )
     MQTTPublishInfo_t xMQTTPublishInfo;
     BaseType_t xStatus = pdPASS;
 
+    /*The queue is created to hold a maximum of 5 value, each of which is
+     * large enough to hold a variable of type int32_t*/
+    xQueue= xQueueCreate(5, sizeof(int32_t));
+
+		if (xQueue!=NULL){
+
+		Leer_temp();
+
+		xTaskCreate(task_receiver ,"Receiver", 1000, NULL, 2, NULL);
+
+		/* Start the RTOS scheduler. This function should never return */
+
+		vTaskStartScheduler();
+
+		}else
+		{
+			/*The queue could not be created. */
+		}
+		for (;;);
+
     /* Some fields are not used by this demo so start with everything at 0. */
     ( void ) memset( ( void * ) &xMQTTPublishInfo, 0x00, sizeof( xMQTTPublishInfo ) );
 
@@ -989,8 +1017,12 @@ static BaseType_t prvMQTTPublishToTopic( MQTTContext_t * pxMQTTContext )
     /* Get a unique packet id. */
     usPublishPacketIdentifier = MQTT_GetPacketId( pxMQTTContext );
 
+
+
+
     /* Send PUBLISH packet. Packet ID is not used for a QoS1 publish. */
     xResult = MQTT_Publish( pxMQTTContext, &xMQTTPublishInfo, usPublishPacketIdentifier );
+
 
     if( xResult != MQTTSuccess )
     {
