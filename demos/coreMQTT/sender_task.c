@@ -30,12 +30,12 @@ void task_sender(void *pvParameters)
 {
 	int32_t ValueToSend;
 	BaseType_t xStatus;
-
+	const TickType_t xDelay= pdMS_TO_TICKS(5000);
 
 	/*Two instances of this task are created so the value that is sent to the queue is passed in
 	 via the task parameter- this way each instance can use a different value. The queue was created
 	 to hold values of type int32_t, so cast the parameter to the requierd type*/
-     printf("Task_sender.\r\n");
+     //printf("Task_sender.\r\n");
 
       ValueToSend = (int32_t) pvParameters;
       /*As per most task, this task is implemented within an infinite loop*/
@@ -61,9 +61,11 @@ void task_sender(void *pvParameters)
 		  // vPrintString("Could not sent to the queue.\r\n");
 	   }
 
-	   printf("Enviada: \r\n");
+//	   printf("Enviada: \r\n");
+//
+//	   printf("%ld\r\n", ValueToSend );
 
-	   printf("%ld\r\n", ValueToSend );
+	   vTaskDelay(xDelay);
    }
 
 

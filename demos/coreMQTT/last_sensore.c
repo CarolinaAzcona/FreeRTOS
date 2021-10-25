@@ -1,4 +1,5 @@
 
+#include <stdint.h>
 #include "sender_task.h"
 #include "cy_pdl.h"
 #include "cybsp.h"
@@ -11,6 +12,7 @@
 #include "timers.h"
 #include <stdio.h>
 #include "last_sensore.h"
+
 /***************************************
 *            Constants
 ****************************************/
@@ -78,14 +80,10 @@ void Leer_temp(){
 	#endif
 
 
-	//for(;;){
 
-
-	//printf("Task_sensor\r\n");
 
 	#if ((I2C_MODE == I2C_MODE_BOTH) || (I2C_MODE == I2C_MODE_MASTER))
 
-	//								 printf(">> Reading value..... \r\n");
 
 					//Paso 1. Leer los registros del 0x10 al 0x20.- COEF
 
@@ -130,10 +128,11 @@ void Leer_temp(){
 					getTwosComplement(&c1, 12);
 
 
-	//								printf("%u\r\n", ( int)c1);
+	                //printf("%u\r\n", ( int)c1);
 
 					uint32_t Traw = (array4[0]<<16)|(array4[1]<<8)|(array4[2]);
-	//								printf("%u\r\n", (unsigned int)Traw);
+
+					//printf("%u\r\n", (unsigned int)Traw);
 
 					//scale temperature according to scaling table and oversampling
 					double temp = Traw / 524288.0 ;
@@ -151,7 +150,7 @@ void Leer_temp(){
 //
 //					printf("%f\r\n", (double)temp1_tosend);
 
-					xTaskCreate(task_sender, "Sender Task", 1000 , temp1_tosend, 1, NULL);
+					xTaskCreate(task_sender, "Sender Task", 1000 , (void *) temp1_tosend, 1, NULL);
 
 	#endif
 

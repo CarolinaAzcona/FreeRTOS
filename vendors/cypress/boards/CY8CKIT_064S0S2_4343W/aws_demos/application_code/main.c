@@ -29,7 +29,10 @@
  */
 
 /* FreeRTOS includes. */
-
+#include <string.h>
+#include <stdint.h>
+#include <stdio.h>
+#include <stdlib.h>
 #include "FreeRTOS.h"
 #include "task.h"
 #ifdef CY_BOOT_USE_EXTERNAL_FLASH

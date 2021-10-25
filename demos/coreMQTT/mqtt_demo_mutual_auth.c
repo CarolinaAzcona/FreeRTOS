@@ -46,17 +46,18 @@
  */
 
 /* Standard includes. */
+#include <stdint.h>
 #include "last_sensore.h"
-#include <string.h>
-#include <stdio.h>
-#include <stdlib.h>
+//#include <string.h>
+//#include <stdio.h>
+//#include <stdlib.h>
 #include "receiver_task.h"
-#include "sender_task.h"
 #include "cybsp.h"
 #include "FreeRTOS.h"
 #include "task.h"
 #include "queue.h"
 #include "cy_retarget_io.h"
+
 
 /* Demo Specific configs. */
 #include "mqtt_demo_mutual_auth_config.h"
@@ -91,6 +92,18 @@
 
 /* Include AWS IoT metrics macros header. */
 #include "aws_iot_metrics.h"
+
+
+
+
+
+
+
+QueueHandle_t xQueue;
+
+
+
+
 
 /*------------- Demo configurations -------------------------*/
 
@@ -183,7 +196,7 @@
 /**
  * @brief The MQTT message published in this example.
  */
-#define mqttexampleMESSAGE                                "Hola Carolina! Hoy es Lunes 27 de Septiembre de 2021."
+//#define mqttexampleMESSAGE                                "Hola Carolina! Hoy es Lunes 27 de Septiembre de 2021."
 
 /**
  * @brief Time in ticks to wait between each cycle of the demo implemented
@@ -1006,13 +1019,19 @@ static BaseType_t prvMQTTPublishToTopic( MQTTContext_t * pxMQTTContext )
     /* Some fields are not used by this demo so start with everything at 0. */
     ( void ) memset( ( void * ) &xMQTTPublishInfo, 0x00, sizeof( xMQTTPublishInfo ) );
 
+    const char *ptr;
+    ptr= (const char*)(&ReceivedValue);
+
+
+
     /* This demo uses QoS1. */
     xMQTTPublishInfo.qos = MQTTQoS1;
     xMQTTPublishInfo.retain = false;
     xMQTTPublishInfo.pTopicName = mqttexampleTOPIC;
     xMQTTPublishInfo.topicNameLength = ( uint16_t ) strlen( mqttexampleTOPIC );
-    xMQTTPublishInfo.pPayload = mqttexampleMESSAGE;
-    xMQTTPublishInfo.payloadLength = strlen( mqttexampleMESSAGE );
+    xMQTTPublishInfo.pPayload = ptr;
+
+    xMQTTPublishInfo.payloadLength = strlen( ptr );
 
     /* Get a unique packet id. */
     usPublishPacketIdentifier = MQTT_GetPacketId( pxMQTTContext );

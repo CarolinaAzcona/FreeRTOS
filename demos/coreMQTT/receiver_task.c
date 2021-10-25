@@ -37,11 +37,12 @@ QueueHandle_t xQueue;
 *******************************************************************************/
 void task_receiver(void *pvParameters)
 {
-	int32_t ReceivedValue;
+
 	BaseType_t xStatus;
 	const TickType_t xTicksToWait= pdMS_TO_TICKS(100);
+	const TickType_t xDelay= pdMS_TO_TICKS(5000);
 
-    printf("Task_receiver.\r\n");
+    //printf("Task_receiver.\r\n");
 /*This task is also implemented within an infinite loop*/
 	for (;;)
 	{
@@ -65,7 +66,7 @@ void task_receiver(void *pvParameters)
 		The last parameter is the block time - the maximum amount of time that the task will remain in the
 		blocked state to wait for data to be avaible should the queue already be empty.*/
 	    xQueueReceive(xQueue, &ReceivedValue, xTicksToWait);
-	    printf("Recibida: \r\n");
+	    printf("La temperatura recibida es: \r\n");
 
 	    printf("%ld\r\n", ReceivedValue );
 
@@ -83,6 +84,7 @@ void task_receiver(void *pvParameters)
 
 
 		}
+		vTaskDelay(xDelay);
 
 	}
 }
