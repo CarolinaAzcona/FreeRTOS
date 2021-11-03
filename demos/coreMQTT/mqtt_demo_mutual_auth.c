@@ -48,13 +48,11 @@
 /* Standard includes. */
 #include <stdint.h>
 #include "last_sensore.h"
-//#include <string.h>
-//#include <stdio.h>
-//#include <stdlib.h>
-#include "receiver_task.h"
+#include <string.h>
+#include <stdio.h>
+#include <stdlib.h>
+//#include "receiver_task.h"
 #include "cybsp.h"
-#include "FreeRTOS.h"
-#include "task.h"
 #include "queue.h"
 #include "cy_retarget_io.h"
 
@@ -95,13 +93,7 @@
 
 
 
-
-
-
-
-QueueHandle_t xQueue;
-
-
+//QueueHandle_t xQueue;
 
 
 
@@ -196,7 +188,8 @@ QueueHandle_t xQueue;
 /**
  * @brief The MQTT message published in this example.
  */
-//#define mqttexampleMESSAGE                                "Hola Carolina! Hoy es Lunes 27 de Septiembre de 2021."
+#define mqttexampleMESSAGE                                "AQUI SE PUBLICA!!!."
+
 
 /**
  * @brief Time in ticks to wait between each cycle of the demo implemented
@@ -989,54 +982,82 @@ static BaseType_t prvMQTTSubscribeWithBackoffRetries( MQTTContext_t * pxMQTTCont
     return xStatus;
 }
 /*-----------------------------------------------------------*/
+//void Task(){
+//
+//
+//	    /*The queue is created to hold a maximum of 5 value, each of which is
+//	     * large enough to hold a variable of type int32_t*/
+//	    xQueue= xQueueCreate(5, sizeof(int32_t));
+//
+//			if (xQueue!=NULL){
+//
+//			Leer_temp();
+//
+//			xTaskCreate(task_receiver ,"Receiver", 1000, NULL, 2, NULL);
+//
+//	//	    printf("La temperatura recibida es: \r\n");
+//	//
+//	//	    printf("%ld\r\n", ReceivedValue );
+//			/* Start the RTOS scheduler. This function should never return */
+//
+//			vTaskStartScheduler();
+//
+//			}else
+//			{
+//				/*The queue could not be created. */
+//			}
+//			for (;;);
+//}
+
+
+
+
+
+
+
+
 
 static BaseType_t prvMQTTPublishToTopic( MQTTContext_t * pxMQTTContext )
 {
+	char text [10];
+
+	double temp1;
+
     MQTTStatus_t xResult;
+
     MQTTPublishInfo_t xMQTTPublishInfo;
+
     BaseType_t xStatus = pdPASS;
 
-    /*The queue is created to hold a maximum of 5 value, each of which is
-     * large enough to hold a variable of type int32_t*/
-    xQueue= xQueueCreate(5, sizeof(int32_t));
 
-		if (xQueue!=NULL){
+    /*Recibe el valor de la función.*/
+    temp1= Leer_temp();
 
-		Leer_temp();
+    /*Lo pasamos a un string-*/
+    sprintf(text, "%f", temp1);
 
-		xTaskCreate(task_receiver ,"Receiver", 1000, NULL, 2, NULL);
+    printf("\nYou have entered: %s", text);
 
-		/* Start the RTOS scheduler. This function should never return */
-
-		vTaskStartScheduler();
-
-		}else
-		{
-			/*The queue could not be created. */
-		}
-		for (;;);
+//    printf("%s", buffer);
 
     /* Some fields are not used by this demo so start with everything at 0. */
     ( void ) memset( ( void * ) &xMQTTPublishInfo, 0x00, sizeof( xMQTTPublishInfo ) );
 
-    const char *ptr;
-    ptr= (const char*)(&ReceivedValue);
-
-
-
     /* This demo uses QoS1. */
     xMQTTPublishInfo.qos = MQTTQoS1;
-    xMQTTPublishInfo.retain = false;
-    xMQTTPublishInfo.pTopicName = mqttexampleTOPIC;
-    xMQTTPublishInfo.topicNameLength = ( uint16_t ) strlen( mqttexampleTOPIC );
-    xMQTTPublishInfo.pPayload = ptr;
 
-    xMQTTPublishInfo.payloadLength = strlen( ptr );
+    xMQTTPublishInfo.retain = false;
+
+    xMQTTPublishInfo.pTopicName = mqttexampleTOPIC;
+
+    xMQTTPublishInfo.topicNameLength = ( uint16_t ) strlen( mqttexampleTOPIC );
+
+    xMQTTPublishInfo.pPayload = text;
+
+    xMQTTPublishInfo.payloadLength = strlen(text);
 
     /* Get a unique packet id. */
     usPublishPacketIdentifier = MQTT_GetPacketId( pxMQTTContext );
-
-
 
 
     /* Send PUBLISH packet. Packet ID is not used for a QoS1 publish. */

@@ -13,7 +13,7 @@
 #include "queue.h"
 #include "cycfg.h"
 #include <stdio.h>
-
+#include <stdint.h>
 /*******************************************************************************
 * Global constants
 *******************************************************************************/
@@ -39,8 +39,8 @@ void task_sender(void *pvParameters)
 
       ValueToSend = (int32_t) pvParameters;
       /*As per most task, this task is implemented within an infinite loop*/
-      for (;;)
-      {
+//      for (;;)
+//      {
 
 
 	   /*Send the value to the queue.
@@ -66,7 +66,8 @@ void task_sender(void *pvParameters)
 //	   printf("%ld\r\n", ValueToSend );
 
 	   vTaskDelay(xDelay);
-   }
+	   //for (;;);
+	        // {}
 
 
 }

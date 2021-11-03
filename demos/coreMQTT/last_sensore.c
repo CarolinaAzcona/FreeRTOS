@@ -1,6 +1,6 @@
 
 #include <stdint.h>
-#include "sender_task.h"
+//#include "sender_task.h"
 #include "cy_pdl.h"
 #include "cybsp.h"
 #include "cyhal.h"
@@ -57,14 +57,14 @@ void getTwosComplement(uint32_t *raw, uint8_t length)
  * Global variable
  ******************************************************************************/
 /* Queue handle used for LED data */
-QueueHandle_t sensor_command_data_q;
+//QueueHandle_t sensor_command_data_q;
 
 
-void Leer_temp(){
+double Leer_temp(){
 
 
 	__attribute__ ((unused)) cy_rslt_t result;
-	int32_t temp1_tosend;
+    //void *voidPointer;
 
 
 	#if ((I2C_MODE == I2C_MODE_BOTH) || (I2C_MODE == I2C_MODE_MASTER))
@@ -141,18 +141,24 @@ void Leer_temp(){
 					//Calculate compensated temperature
 					double temp1 = c0 * 0.5 + c1 * temp;
 
+
+//					output=&temp1;
+//					printf("Valor dentro %f \r\n", *output);
+//					voidPointer= &temp1;
+
 					/*The queue was created to hold values of type int32_t so cast the
 					 * parameter to the required type.
 					 */
-					temp1_tosend= (int32_t) temp1;
+//					temp1_tosend= (int32_t) temp1;
 
 //					printf("La temperatura es: \r\n");
 //
 //					printf("%f\r\n", (double)temp1_tosend);
 
-					xTaskCreate(task_sender, "Sender Task", 1000 , (void *) temp1_tosend, 1, NULL);
+//					xTaskCreate(task_sender, "Sender Task", 1000 , (void *) temp1_tosend, 2, NULL);
+//					printf("Dentro de la funcion el valor es %f  \r\n", *(float *)voidPointer);
 
 	#endif
-
+					return temp1;
 }
 

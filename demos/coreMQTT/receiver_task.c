@@ -44,8 +44,8 @@ void task_receiver(void *pvParameters)
 
     //printf("Task_receiver.\r\n");
 /*This task is also implemented within an infinite loop*/
-	for (;;)
-	{
+	//for (;;)
+	//{
 	   /*This call should always find the queue empty because this task will inmediatly remove
 		* any data that is written to the queue.*/
 
@@ -66,9 +66,9 @@ void task_receiver(void *pvParameters)
 		The last parameter is the block time - the maximum amount of time that the task will remain in the
 		blocked state to wait for data to be avaible should the queue already be empty.*/
 	    xQueueReceive(xQueue, &ReceivedValue, xTicksToWait);
-	    printf("La temperatura recibida es: \r\n");
-
-	    printf("%ld\r\n", ReceivedValue );
+//	    printf("La temperatura recibida es: \r\n");
+//
+//	    printf("%ld\r\n", ReceivedValue );
 
 		if(xStatus==pdPASS){
 		/*Data was succesfully received from the queue, print out the received value.*/
@@ -86,7 +86,9 @@ void task_receiver(void *pvParameters)
 		}
 		vTaskDelay(xDelay);
 
-	}
+
+	//}
+
 }
 
 /* END OF FILE [] */

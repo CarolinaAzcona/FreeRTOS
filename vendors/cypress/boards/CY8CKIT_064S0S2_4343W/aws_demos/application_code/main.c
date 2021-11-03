@@ -35,6 +35,9 @@
 #include <stdlib.h>
 #include "FreeRTOS.h"
 #include "task.h"
+//#include "last_sensore.h"
+//#include "receiver_task.h"
+//#include "sender_task.h"
 #ifdef CY_BOOT_USE_EXTERNAL_FLASH
 #include "flash_qspi.h"
 #include "cy_smif_psoc6.h"
@@ -281,6 +284,10 @@ void prvWatchdogTaskStop(void)
 /**
  * @brief Application runtime entry point.
  */
+
+
+
+
 int main( void )
 {
     /* Perform any hardware initialization that does not require the RTOS to be
@@ -317,6 +324,8 @@ int main( void )
     /* Start the scheduler.  Initialization that requires the OS to be running,
      * including the Wi-Fi initialization, is performed in the RTOS daemon task
      * startup hook. */
+
+
     if (pdPASS == xReturnMessage)
     {
         vTaskStartScheduler();

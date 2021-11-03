@@ -4,6 +4,13 @@
 #include "queue.h"
 #include <stdint.h>
 
+/*****************************************************************************
+ *
+ */
+//extern int32_t temp1_tosend;
+//void *voidPointer;
+
+
 #ifndef SOURCE_SENSORE_H_
 #define SOURCE_SENSORE_H_
 
@@ -61,10 +68,11 @@
     #endif
 #endif
 
+
 //*******************************************************************************
 // * Function prototype
 // ******************************************************************************/
-void Leer_temp();
+double Leer_temp();
 
 
 #endif
